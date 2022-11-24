@@ -1,15 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using System.Data;
-using System.Data.SqlClient; 
-using Alachisoft.NCache.Client;
-using Alachisoft.NCache.Runtime.Exceptions;
-using Models;
-using DAL;
 
 namespace NorthWindApplication
 {
@@ -25,6 +16,7 @@ namespace NorthWindApplication
             if (!this.IsPostBack)
             {
                 HiddenField.Value = "0";
+                Session["index"] = Cust;
                 _ShowData(Cust);
             }
         }

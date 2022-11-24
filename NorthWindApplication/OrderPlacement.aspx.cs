@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace NorthWindApplication
 {
@@ -20,19 +16,20 @@ namespace NorthWindApplication
                 {
                     string cx_id = Request.QueryString["CX_ID"];
                     TextBox2.Text = cx_id;
-                    ProductList();
-                    EmployeeList();
+                    ProductList(0);
+                    EmployeeList(0);
                 }
             }
         }
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            string ProductName = Convert.ToString(DropDownList1.SelectedItem.Text);
-            int EmployeeID = Convert.ToInt32(DropDownList2.SelectedItem.Text);
+            int ProductID = Convert.ToInt32(Session["ProductID"]);
+            decimal UnitPrice = Convert.ToDecimal(Session["UnitPrice"]);
+            int EmployeeID = Convert.ToInt32(Session["EmployeeID"]);
             int Quantity = Convert.ToInt32(TextBox1.Text);
             string CustomerID = TextBox2.Text;
-            if (client.PlaceOrder(CustomerID, EmployeeID, ProductName, Quantity))
+            if (client.PlaceOrder(CustomerID, EmployeeID, ProductID, Quantity,UnitPrice))
             {
                 Response.Write("<script>alert('Order Placed !!')</script>");
             }
@@ -42,30 +39,72 @@ namespace NorthWindApplication
             }
         }
 
-        protected void ProductList()
+        protected void ProductList(int ProdID)
         {
             
-            ProductArray = client.AddProducts();
-            DropDownList1.DataSource = ProductArray;
-            DropDownList1.DataTextField = "ProductName";
-            DropDownList1.DataValueField = "ProductID";
-            DropDownList1.DataBind();
+            ProductArray = client.AddProducts(ProdID);
+            if (ProductArray.Length != 0)
+            {
+                GridView1.DataSource = ProductArray;
+                GridView1.DataBind();
+                int size = ProductArray.Length - 1;
+                Session["GlobProd"] = ProductArray[size].ProductID;
+            }
+            else
+            {
+                Session["GlobProd"] = 0;
+                ProductList(0);
+            }
         }
 
-        protected void EmployeeList()
+        protected void EmployeeList(int EmpID)
         {
 
-            EmployeeArray = client.AddEmployees();
-            DropDownList2.DataSource = EmployeeArray;
-            DropDownList2.DataTextField = "EmployeeID";
-            DropDownList2.DataValueField = "EmployeeID";
-            DropDownList2.DataBind();
+            EmployeeArray = client.AddEmployees(EmpID);
+            GridView2.DataSource = EmployeeArray;
+            GridView2.DataBind();
+            EmployeeArray = client.AddEmployees(EmpID);
+            if (EmployeeArray.Length != 0)
+            {
+                GridView2.DataSource = EmployeeArray;
+                GridView2.DataBind();
+                int size = EmployeeArray.Length - 1;
+                Session["GlobEmp"] = EmployeeArray[size].EmployeeID;
+            }
+            else
+            {
+                Session["GlobEmp"] = 0;
+                EmployeeList(0);
+            }
 
         }
 
         protected void Button2_Click(object sender, EventArgs e)
         {
             Response.Redirect("HomePage.aspx");
+        }
+
+        protected void Button3_Click(object sender, EventArgs e)
+        {
+            int GlobProd = Convert.ToInt32(Session["GlobProd"]);
+            ProductList(GlobProd);
+        }
+
+        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Session["ProductID"] = GridView1.SelectedRow.Cells[1].Text;
+            Session["UnitPrice"] = GridView1.SelectedRow.Cells[3].Text;
+        }
+
+        protected void Button5_Click(object sender, EventArgs e)
+        {
+            int GlobEmp = Convert.ToInt32(Session["GlobEmp"]);
+            EmployeeList(GlobEmp);
+        }
+
+        protected void GridView2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            Session["EmployeeID"] = GridView2.SelectedRow.Cells[1].Text;
         }
     }
 }

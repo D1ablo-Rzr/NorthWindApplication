@@ -2,9 +2,6 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Models;
 
 namespace DAL
@@ -77,7 +74,7 @@ namespace DAL
             return ls;
         }
 
-        public bool PlaceOrder(string CustomerID, int EmployeeID, string ProductName, int Quantity)
+        public bool PlaceOrder(string CustomerID, int EmployeeID, int ProductID, int Quantity,decimal UnitPrice)
         {
             con.Open();
             SqlCommand ins = new SqlCommand("insert into Orders(CustomerID, EmployeeID, OrderDate) values( @cxid, @empid,@orderdate)", con);
@@ -88,7 +85,7 @@ namespace DAL
             {
                 ins.ExecuteNonQuery();
                 con.Close();
-                OrderDetails(ProductName, Quantity);
+                OrderDetails(ProductID, Quantity, UnitPrice);
                 return true;
             }
             catch(SqlException ex)
@@ -97,28 +94,16 @@ namespace DAL
             }
         }
 
-        public bool OrderDetails(string Prod_Name, int Quantity)
+        public bool OrderDetails(int ProductID, int Quantity,decimal UnitPrice)
         {
             con.Open();
-            int Prod_ID = 0;
-            decimal Unit_Price = 0;
             SqlCommand cmd = new SqlCommand("SELECT TOP 1 OrderID FROM Orders ORDER BY OrderID DESC", con);
             int orderid = (int)cmd.ExecuteScalar();
 
-            SqlCommand prodID = new SqlCommand("Select ProductID, UnitPrice from Products where ProductName=@prodname", con);
-            prodID.Parameters.AddWithValue("prodname", Prod_Name);
-            SqlDataReader r = prodID.ExecuteReader();
-            while (r.Read())
-            {
-                Prod_ID = r.GetInt32(r.GetOrdinal("ProductID"));
-                Unit_Price = r.GetDecimal(r.GetOrdinal("UnitPrice"));
-            }
-            r.Close();
-
             SqlCommand order_details = new SqlCommand("insert into [Order Details](OrderID, ProductID, UnitPrice, Quantity) values(@orderid, @prod_id, @unitprice, @quantity)", con);
             order_details.Parameters.AddWithValue("@orderid", orderid);
-            order_details.Parameters.AddWithValue("@prod_id", Prod_ID);
-            order_details.Parameters.AddWithValue("@unitprice", Unit_Price);
+            order_details.Parameters.AddWithValue("@prod_id", ProductID);
+            order_details.Parameters.AddWithValue("@unitprice", UnitPrice);
             order_details.Parameters.AddWithValue("@quantity", Quantity);
 
             try

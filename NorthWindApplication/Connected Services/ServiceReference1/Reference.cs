@@ -1004,20 +1004,24 @@ namespace NorthWindApplication.ServiceReference1 {
         [System.Runtime.Serialization.DataMemberAttribute(Order=1)]
         public int EmployeeID;
         
-        [System.Runtime.Serialization.DataMemberAttribute(EmitDefaultValue=false, Order=2)]
-        public string ProductName;
+        [System.Runtime.Serialization.DataMemberAttribute(Order=2)]
+        public int ProductID;
         
         [System.Runtime.Serialization.DataMemberAttribute(Order=3)]
         public int Quantity;
         
+        [System.Runtime.Serialization.DataMemberAttribute(Order=4)]
+        public decimal UnitPrice;
+        
         public PlaceOrderRequestBody() {
         }
         
-        public PlaceOrderRequestBody(string CustomerID, int EmployeeID, string ProductName, int Quantity) {
+        public PlaceOrderRequestBody(string CustomerID, int EmployeeID, int ProductID, int Quantity, decimal UnitPrice) {
             this.CustomerID = CustomerID;
             this.EmployeeID = EmployeeID;
-            this.ProductName = ProductName;
+            this.ProductID = ProductID;
             this.Quantity = Quantity;
+            this.UnitPrice = UnitPrice;
         }
     }
     
@@ -1075,10 +1079,17 @@ namespace NorthWindApplication.ServiceReference1 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute()]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
     public partial class AddProductsRequestBody {
         
+        [System.Runtime.Serialization.DataMemberAttribute(Order=0)]
+        public int ProdID;
+        
         public AddProductsRequestBody() {
+        }
+        
+        public AddProductsRequestBody(int ProdID) {
+            this.ProdID = ProdID;
         }
     }
     
@@ -1136,10 +1147,17 @@ namespace NorthWindApplication.ServiceReference1 {
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.ServiceModel", "4.0.0.0")]
     [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-    [System.Runtime.Serialization.DataContractAttribute()]
+    [System.Runtime.Serialization.DataContractAttribute(Namespace="http://tempuri.org/")]
     public partial class AddEmployeesRequestBody {
         
+        [System.Runtime.Serialization.DataMemberAttribute(Order=0)]
+        public int EmpID;
+        
         public AddEmployeesRequestBody() {
+        }
+        
+        public AddEmployeesRequestBody(int EmpID) {
+            this.EmpID = EmpID;
         }
     }
     
@@ -1421,13 +1439,14 @@ namespace NorthWindApplication.ServiceReference1 {
             return base.Channel.PlaceOrder(request);
         }
         
-        public bool PlaceOrder(string CustomerID, int EmployeeID, string ProductName, int Quantity) {
+        public bool PlaceOrder(string CustomerID, int EmployeeID, int ProductID, int Quantity, decimal UnitPrice) {
             NorthWindApplication.ServiceReference1.PlaceOrderRequest inValue = new NorthWindApplication.ServiceReference1.PlaceOrderRequest();
             inValue.Body = new NorthWindApplication.ServiceReference1.PlaceOrderRequestBody();
             inValue.Body.CustomerID = CustomerID;
             inValue.Body.EmployeeID = EmployeeID;
-            inValue.Body.ProductName = ProductName;
+            inValue.Body.ProductID = ProductID;
             inValue.Body.Quantity = Quantity;
+            inValue.Body.UnitPrice = UnitPrice;
             NorthWindApplication.ServiceReference1.PlaceOrderResponse retVal = ((NorthWindApplication.ServiceReference1.WebService1Soap)(this)).PlaceOrder(inValue);
             return retVal.Body.PlaceOrderResult;
         }
@@ -1437,13 +1456,14 @@ namespace NorthWindApplication.ServiceReference1 {
             return base.Channel.PlaceOrderAsync(request);
         }
         
-        public System.Threading.Tasks.Task<NorthWindApplication.ServiceReference1.PlaceOrderResponse> PlaceOrderAsync(string CustomerID, int EmployeeID, string ProductName, int Quantity) {
+        public System.Threading.Tasks.Task<NorthWindApplication.ServiceReference1.PlaceOrderResponse> PlaceOrderAsync(string CustomerID, int EmployeeID, int ProductID, int Quantity, decimal UnitPrice) {
             NorthWindApplication.ServiceReference1.PlaceOrderRequest inValue = new NorthWindApplication.ServiceReference1.PlaceOrderRequest();
             inValue.Body = new NorthWindApplication.ServiceReference1.PlaceOrderRequestBody();
             inValue.Body.CustomerID = CustomerID;
             inValue.Body.EmployeeID = EmployeeID;
-            inValue.Body.ProductName = ProductName;
+            inValue.Body.ProductID = ProductID;
             inValue.Body.Quantity = Quantity;
+            inValue.Body.UnitPrice = UnitPrice;
             return ((NorthWindApplication.ServiceReference1.WebService1Soap)(this)).PlaceOrderAsync(inValue);
         }
         
@@ -1452,9 +1472,10 @@ namespace NorthWindApplication.ServiceReference1 {
             return base.Channel.AddProducts(request);
         }
         
-        public NorthWindApplication.ServiceReference1.Products[] AddProducts() {
+        public NorthWindApplication.ServiceReference1.Products[] AddProducts(int ProdID) {
             NorthWindApplication.ServiceReference1.AddProductsRequest inValue = new NorthWindApplication.ServiceReference1.AddProductsRequest();
             inValue.Body = new NorthWindApplication.ServiceReference1.AddProductsRequestBody();
+            inValue.Body.ProdID = ProdID;
             NorthWindApplication.ServiceReference1.AddProductsResponse retVal = ((NorthWindApplication.ServiceReference1.WebService1Soap)(this)).AddProducts(inValue);
             return retVal.Body.AddProductsResult;
         }
@@ -1464,9 +1485,10 @@ namespace NorthWindApplication.ServiceReference1 {
             return base.Channel.AddProductsAsync(request);
         }
         
-        public System.Threading.Tasks.Task<NorthWindApplication.ServiceReference1.AddProductsResponse> AddProductsAsync() {
+        public System.Threading.Tasks.Task<NorthWindApplication.ServiceReference1.AddProductsResponse> AddProductsAsync(int ProdID) {
             NorthWindApplication.ServiceReference1.AddProductsRequest inValue = new NorthWindApplication.ServiceReference1.AddProductsRequest();
             inValue.Body = new NorthWindApplication.ServiceReference1.AddProductsRequestBody();
+            inValue.Body.ProdID = ProdID;
             return ((NorthWindApplication.ServiceReference1.WebService1Soap)(this)).AddProductsAsync(inValue);
         }
         
@@ -1475,9 +1497,10 @@ namespace NorthWindApplication.ServiceReference1 {
             return base.Channel.AddEmployees(request);
         }
         
-        public NorthWindApplication.ServiceReference1.Employees[] AddEmployees() {
+        public NorthWindApplication.ServiceReference1.Employees[] AddEmployees(int EmpID) {
             NorthWindApplication.ServiceReference1.AddEmployeesRequest inValue = new NorthWindApplication.ServiceReference1.AddEmployeesRequest();
             inValue.Body = new NorthWindApplication.ServiceReference1.AddEmployeesRequestBody();
+            inValue.Body.EmpID = EmpID;
             NorthWindApplication.ServiceReference1.AddEmployeesResponse retVal = ((NorthWindApplication.ServiceReference1.WebService1Soap)(this)).AddEmployees(inValue);
             return retVal.Body.AddEmployeesResult;
         }
@@ -1487,9 +1510,10 @@ namespace NorthWindApplication.ServiceReference1 {
             return base.Channel.AddEmployeesAsync(request);
         }
         
-        public System.Threading.Tasks.Task<NorthWindApplication.ServiceReference1.AddEmployeesResponse> AddEmployeesAsync() {
+        public System.Threading.Tasks.Task<NorthWindApplication.ServiceReference1.AddEmployeesResponse> AddEmployeesAsync(int EmpID) {
             NorthWindApplication.ServiceReference1.AddEmployeesRequest inValue = new NorthWindApplication.ServiceReference1.AddEmployeesRequest();
             inValue.Body = new NorthWindApplication.ServiceReference1.AddEmployeesRequestBody();
+            inValue.Body.EmpID = EmpID;
             return ((NorthWindApplication.ServiceReference1.WebService1Soap)(this)).AddEmployeesAsync(inValue);
         }
     }

@@ -107,9 +107,9 @@ namespace WebServiceApplicationCRUD
 
         [WebMethod]
 
-        public bool PlaceOrder(string CustomerID, int EmployeeID, string ProductName, int Quantity)
+        public bool PlaceOrder(string CustomerID, int EmployeeID, int ProductID, int Quantity, decimal UnitPrice)
         {
-            if (Order_Obj.PlaceOrder(CustomerID, EmployeeID, ProductName, Quantity))
+            if (Order_Obj.PlaceOrder(CustomerID, EmployeeID, ProductID, Quantity,UnitPrice))
             {
                 return true;
             }
@@ -119,18 +119,18 @@ namespace WebServiceApplicationCRUD
             }
         }
         [WebMethod]
-        public List<Products> AddProducts()
+        public List<Products> AddProducts(int ProdID)
         {
             List<Products> ProductList = new List<Products>();
-            ProductList = Product_Obj.AddProducts();
+            ProductList = Product_Obj.AddProducts(ProdID);
             return ProductList;
         }
 
         [WebMethod]
-        public List<Employees> AddEmployees()
+        public List<Employees> AddEmployees(int EmpID)
         {
             List<Employees> EmployeeList = new List<Employees>();
-            EmployeeList = Product_Obj.AddEmployees();
+            EmployeeList = Product_Obj.AddEmployees(EmpID);
             return EmployeeList;
         }
     }

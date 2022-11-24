@@ -5,10 +5,13 @@
         <tr>
             <td style="width: 255px; height: 32px">Select Product</td>
             <td style="height: 32px; width: 410px;">
-    <asp:DropDownList ID="DropDownList1" runat="server" DataTextField="ProductName" DataValueField="ProductID" Height="20px" Width="100px" OnSelectedIndexChanged="cboNames_SelectedIndexChanged">
-    </asp:DropDownList>
+                <asp:GridView ID="GridView1" runat="server" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" AutoGenerateSelectButton="True">
+                </asp:GridView>
+                <asp:Button ID="Button4" runat="server" Text="Previous" />
+                <asp:Button ID="Button3" runat="server" Text="Next" OnClick="Button3_Click" />
             </td>
-            <td style="height: 32px"></td>
+            <td style="height: 32px">
+                &nbsp;</td>
             <td style="height: 32px"></td>
         </tr>
         <tr>
@@ -28,13 +31,22 @@
         <tr>
             <td style="width: 255px; height: 20px">Enter Employee ID</td>
             <td style="height: 20px; width: 410px;">
-                <asp:DropDownList ID="DropDownList2" runat="server" DataTextField="EmployeeID" DataValueField="EmployeeID" Width="100px" OnSelectedIndexChanged="cboNames_SelectedIndexChanged">
-                </asp:DropDownList>
+                <asp:GridView ID="GridView2" runat="server" AutoGenerateSelectButton="True" OnSelectedIndexChanged="GridView2_SelectedIndexChanged">
+                </asp:GridView>
+                <asp:Button ID="Button6" runat="server" Text="Previous" />
+                <asp:Button ID="Button5" runat="server" Text="Next" OnClick="Button5_Click" />
             </td>
             <td style="height: 20px">
+                &nbsp;</td>
+            <td style="height: 20px"></td>
+        </tr>
+        <tr>
+            <td style="width: 255px">&nbsp;</td>
+            <td style="width: 410px">&nbsp;</td>
+            <td>
                 <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Place Order" Width="131px" />
             </td>
-            <td style="height: 20px"></td>
+            <td>&nbsp;</td>
         </tr>
         <tr>
             <td style="width: 255px">&nbsp;</td>

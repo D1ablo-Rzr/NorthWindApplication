@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Data.SqlClient;
-using System.Data.SqlTypes;
-using System.Linq;
-using System.Web;
 using Models;
-using Alachisoft.NCache;
 
 namespace DAL
 {
